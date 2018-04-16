@@ -32,8 +32,8 @@ public class FirstLinkGetter {
                         case StateOptions.METADATA:
                             if (line.StartsWith("    <ns>", StringComparison.CurrentCulture)){
                                 if (line != "    <ns>0</ns>") {
-                                    Console.WriteLine(line);
-                                    Environment.Exit(0);
+                                    //Console.WriteLine(line);
+                                    //Environment.Exit(0);
                                     //state = StateOptions.SKIPPAGE;
                                 }
                             }
