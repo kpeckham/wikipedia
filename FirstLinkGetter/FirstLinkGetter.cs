@@ -18,26 +18,27 @@ public class FirstLinkGetter {
                 string line;
                 while ((line = streamReader.ReadLine()) != null) {
                     switch (state) {
-                        case StateOptions.FINDFIRST {
+                        case StateOptions.FINDFIRST: {
                             
                             if (line == "  <page>") {
                                 state = StateOptions.METADATA;
                             }
                             break;
                         }
-                        case StateOptions.METADATA {
+                        case StateOptions.METADATA: {
 
                             Console.WriteLine(line);
                             Environment.Exit(0);
+                            break;
                         }
-                        case StateOptions.REDIRECT {
-
+                        case StateOptions.REDIRECT: {
+                            break;
                         }
-                        case StateOptions.SKIPPAGE {
-
+                        case StateOptions.SKIPPAGE: {
+                            break;
                         }
-                        case StateOptions.TEXT {
-
+                        case StateOptions.TEXT: {
+                            break;
                         }
 
                     }
