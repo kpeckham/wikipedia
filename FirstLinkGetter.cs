@@ -9,29 +9,39 @@ public class FirstLinkGetter {
     public static void Main() {
         string path = "~/put path here.txt";
         //using (StreamWriter streamWriter = new StreamWriter(path)) {
-        string home = Environment.GetFolderPath(Environment.SpecialFolder.Personal);
+
+            string home = Environment.GetFolderPath(Environment.SpecialFolder.Personal);
+
             using (StreamReader streamReader = new StreamReader(home + "/enwiki-20180401/enwiki-20180401-pages-articles.xml")) {
-                string line = streamReader.ReadLine();
-                Console.WriteLine(line);
-                //StateOptions state = StateOptions.FINDFIRST;
-                //while (true) {
-                //    switch (state) {
-                //        case StateOptions.FINDFIRST {
-                //        }
-                //        case StateOptions.METADATA {
 
-                //        }
-                //        case StateOptions.REDIRECT {
+                StateOptions state = StateOptions.FINDFIRST;
+                string line;
+                while ((line = streamReader.ReadLine()) != null) {
+                    switch (state) {
+                        case StateOptions.FINDFIRST {
+                            
+                            if (line == "  <page>") {
+                                state = StateOptions.METADATA;
+                            }
+                            break;
+                        }
+                        case StateOptions.METADATA {
 
-                //        }
-                //        case StateOptions.SKIPPAGE {
+                            Console.WriteLine(line);
+                            Environment.Exit(0);
+                        }
+                        case StateOptions.REDIRECT {
 
-                //        }
-                //        case StateOptions.TEXT {
+                        }
+                        case StateOptions.SKIPPAGE {
 
-                //        }
-                //    }
-                //}
+                        }
+                        case StateOptions.TEXT {
+
+                        }
+
+                    }
+                }
             }
         //}
              
