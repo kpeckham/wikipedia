@@ -30,9 +30,14 @@ public class FirstLinkGetter {
                             break;
                         
                         case StateOptions.METADATA:
-                            //id line format: "    <id>10</id>"
+                            if (line.StartsWith("    <ns>", StringComparison.CurrentCulture)){
+                                if (line != "    <ns>0</ns>") {
+                                    state = StateOptions.SKIPPAGE;
+                                }
+                            }
 
-                            if (line.StartsWith("    <id>", StringComparison.CurrentCulture)) {
+                            //id line format: "    <id>10</id>"
+                            else if (line.StartsWith("    <id>", StringComparison.CurrentCulture)) {
                                 id = line.Substring(8, line.Length - 8 - 5);
                                 Console.WriteLine(id);
 
@@ -41,9 +46,18 @@ public class FirstLinkGetter {
                             else if (line.StartsWith("    <redirect title=\"", StringComparison.CurrentCulture)) {
                                 isRedirect = true;
                                 link = line.Substring(21, line.Length - 21 - 4);
+                                state = StateOptions.REDIRECT;
                                 Console.WriteLine(link);
-                                Environment.Exit(0);
 
+
+                            }
+                            else if (line.StartsWith("      <format>", StringComparison.CurrentCulture)) {
+                                //some types are text/css and text/javascript - we don't want to deal with those
+                                if (line != "      <format>text/x-wiki</format>") {
+                                    Console.WriteLine(line);
+                                    Environment.Exit(0);
+                                    state = StateOptions.SKIPPAGE;
+                                }
                             }
 
                             break;
