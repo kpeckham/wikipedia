@@ -32,7 +32,7 @@ public class FirstLinkGetter {
                         case StateOptions.METADATA:
                             if (line.StartsWith("    <ns>", StringComparison.CurrentCulture)){
                                 if (line != "    <ns>0</ns>") {
-                                    state = StateOptions.SKIPPAGE;
+                                    //state = StateOptions.SKIPPAGE;
                                 }
                             }
 
@@ -46,7 +46,7 @@ public class FirstLinkGetter {
                             else if (line.StartsWith("    <redirect title=\"", StringComparison.CurrentCulture)) {
                                 isRedirect = true;
                                 link = line.Substring(21, line.Length - 21 - 4);
-                                state = StateOptions.REDIRECT;
+                                //state = StateOptions.REDIRECT;
                                 Console.WriteLine(link);
 
 
@@ -56,7 +56,7 @@ public class FirstLinkGetter {
                                 if (line != "      <format>text/x-wiki</format>") {
                                     Console.WriteLine(line);
                                     Environment.Exit(0);
-                                    state = StateOptions.SKIPPAGE;
+                                    //state = StateOptions.SKIPPAGE;
                                 }
                             }
 
