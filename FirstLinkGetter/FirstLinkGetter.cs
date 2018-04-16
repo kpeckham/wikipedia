@@ -32,6 +32,8 @@ public class FirstLinkGetter {
                         case StateOptions.METADATA:
                             if (line.StartsWith("    <ns>", StringComparison.CurrentCulture)){
                                 if (line != "    <ns>0</ns>") {
+                                    Console.WriteLine(line);
+                                    Environment.Exit(0);
                                     //state = StateOptions.SKIPPAGE;
                                 }
                             }
@@ -39,7 +41,7 @@ public class FirstLinkGetter {
                             //id line format: "    <id>10</id>"
                             else if (line.StartsWith("    <id>", StringComparison.CurrentCulture)) {
                                 id = line.Substring(8, line.Length - 8 - 5);
-                                Console.WriteLine(id);
+                                //Console.WriteLine(id);
 
                             }
                             //redirect line format: "    <redirect title="Computer accessibility" />"
@@ -47,7 +49,7 @@ public class FirstLinkGetter {
                                 isRedirect = true;
                                 link = line.Substring(21, line.Length - 21 - 4);
                                 //state = StateOptions.REDIRECT;
-                                Console.WriteLine(link);
+                                //Console.WriteLine(link);
 
 
                             }
