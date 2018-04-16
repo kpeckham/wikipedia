@@ -41,7 +41,7 @@ public class FirstLinkGetter {
                             else if (line.StartsWith("    <redirect title=\"", StringComparison.CurrentCulture)) {
                                 isRedirect = true;
                                 link = line.Substring(21, line.Length - 21 - 4);
-                                Console.WriteLine(line);
+                                Console.WriteLine(link);
                                 Environment.Exit(0);
 
                             }
