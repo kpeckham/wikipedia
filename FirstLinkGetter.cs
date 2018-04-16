@@ -9,8 +9,8 @@ public class FirstLinkGetter {
     public static void Main() {
         string path = "~/put path here.txt";
         //using (StreamWriter streamWriter = new StreamWriter(path)) {
-            
-            using (StreamReader streamReader = new StreamReader("~/enwiki-20180401/enwiki-20180401-pages-articles.xml")) {
+        string home = Environment.GetFolderPath(Environment.SpecialFolder.Personal);
+            using (StreamReader streamReader = new StreamReader(home + "/enwiki-20180401/enwiki-20180401-pages-articles.xml")) {
                 string line = streamReader.ReadLine();
                 Console.WriteLine(line);
                 //StateOptions state = StateOptions.FINDFIRST;
