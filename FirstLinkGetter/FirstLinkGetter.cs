@@ -4,7 +4,7 @@ using System.IO;
 
 public class FirstLinkGetter {
 
-    enum StateOptions { FINDFIRST, METADATA, REDIRECT, SKIPPAGE, TEXT }; 
+    enum StateOptions { FINDFIRST, METADATA, REDIRECT, SKIPPAGE, TEXT, ENDPAGE }; 
 
     public static void Main() {
         string home = Environment.GetFolderPath(Environment.SpecialFolder.Personal);
@@ -18,6 +18,8 @@ public class FirstLinkGetter {
                 string line;
                 string id;
                 string link;
+                bool isRedirect;
+
                 while ((line = streamReader.ReadLine()) != null) {
                     switch (state) {
                         case StateOptions.FINDFIRST: 
@@ -28,10 +30,18 @@ public class FirstLinkGetter {
                             break;
                         
                         case StateOptions.METADATA:
+                            //id line format: "    <id>10</id>"
 
                             if (line.StartsWith("    <id>", StringComparison.CurrentCulture)) {
-                                id = line.Substring(8, line.Length - 8 - 4);
+                                id = line.Substring(8, line.Length - 8 - 5);
                                 Console.WriteLine(id);
+
+                            }
+                            //redirect line format: "    <redirect title="Computer accessibility" />"
+                            else if (line.StartsWith("    <redirect title=\"", StringComparison.CurrentCulture)) {
+                                isRedirect = true;
+                                link = line.Substring(21, line.Length - 21 - 4);
+                                Console.WriteLine(line);
                                 Environment.Exit(0);
 
                             }
@@ -46,7 +56,9 @@ public class FirstLinkGetter {
                         
                         case StateOptions.TEXT: 
                             break;
-                        
+
+                        case StateOptions.ENDPAGE:
+                            break;
 
                     }
                 }
