@@ -1,25 +1,30 @@
 ﻿using System;
 using System.IO;
+using System.Text.RegularExpressions;
+using System.Net;
 
 
 public class FirstLinkGetter {
 
     enum StateOptions { NEXTPAGE, METADATA, TEXT, ENDPAGE }; 
 
-    public static void Main() {
+    public static void Main(string[] args) {
         string home = Environment.GetFolderPath(Environment.SpecialFolder.Personal);
         string path = home + "/firstLinks1.txt";
         using (StreamWriter streamWriter = new StreamWriter(path)) {
 
 
-            using (StreamReader streamReader = new StreamReader(home + "/data/enwiki-20180401-pages-articles.xml")) {
+            using (StreamReader streamReader = new StreamReader("/Users/karlypeckham/Dropbox/Grade 16/Semester 2/Database Mangement/Project/wikipedia/trunk.xml")) {
 
                 StateOptions state = StateOptions.NEXTPAGE;
+                Regex spaceRegex = new Regex(" +", RegexOptions.Compiled);
+
                 string line = "";
                 string id = "";
                 string link = "";
 
                 bool isRedirect = false;
+                bool skipLinkRemainder = false;
 
                 int curlyLevel = 0;
                 int squareLevel = 0;
@@ -34,7 +39,9 @@ public class FirstLinkGetter {
                             if (line == "  <page>") {
                                 id = "";
                                 link = "";
+
                                 isRedirect = false;
+                                skipLinkRemainder = false;
 
                                 curlyLevel = 0;
                                 squareLevel = 0;
@@ -101,17 +108,26 @@ public class FirstLinkGetter {
                                             break;
                                     }
 
-                                    if (curlyLevel == 0 && squareLevel == 2) {
-                                        line += item;
 
+
+                                    if (curlyLevel == 0 && squareLevel == 2 && item != '[' && !skipLinkRemainder) {
+                                        if (item == '|' || item == '#') {
+                                            skipLinkRemainder = true;
+                                        }
+
+                                        else {
+                                            link += item;
+                                        }
                                     }
 
                                     if (linkEndFlag) {
+                                        skipLinkRemainder = false;
                                         if (link.StartsWith("File:")) {
                                             link = "";
                                         }
                                         else {
                                             state = StateOptions.ENDPAGE;
+                                            break;
                                         }
                                         // check for file links, parse link, look for link destination vs. link text
                                         // next steps: check whether it's a file link - ignore and skip over; 
@@ -123,8 +139,14 @@ public class FirstLinkGetter {
                             break;
 
                         case StateOptions.ENDPAGE:
-                            
-                            Console.WriteLine(id + "\t" + (isRedirect ? "t" : "f") + "\t" + link);
+                            //Canonicalization - https://en.wikipedia.org/wiki/Help:Link#Conversion_to_canonical_form
+                            link = link.Replace('_', ' ');
+                            link = link.Trim();
+                            link = char.ToUpper(link[0]) + link.Substring(1);
+                            link = spaceRegex.Replace(link, " ");
+                            link = WebUtility.HtmlDecode(link);
+                               
+                            streamWriter.WriteLine(id + "\t" + (isRedirect ? "t" : "f") + "\t" + link);
                             state = StateOptions.NEXTPAGE;
 
                             break;
