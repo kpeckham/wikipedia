@@ -140,16 +140,20 @@ public class FirstLinkGetter {
 
                         case StateOptions.ENDPAGE:
                             //Canonicalization - https://en.wikipedia.org/wiki/Help:Link#Conversion_to_canonical_form
+
+                            link = link.Replace('_', ' ');
+                            link = link.Trim();
+
                             if (link.Length > 0) {
-                                link = link.Replace('_', ' ');
-                                link = link.Trim();
                                 link = char.ToUpper(link[0]) + link.Substring(1);
-                                link = spaceRegex.Replace(link, " ");
-                                link = WebUtility.HtmlDecode(link);
                             }
+                                
+                            link = spaceRegex.Replace(link, " ");
+                            link = WebUtility.HtmlDecode(link);
                                
                             streamWriter.WriteLine(id + "\t" + (isRedirect ? "t" : "f") + "\t" + link);
                             state = StateOptions.NEXTPAGE;
+                            //check for broken wikitext and figure out array out of bounds exception
 
                             break;
                     }
