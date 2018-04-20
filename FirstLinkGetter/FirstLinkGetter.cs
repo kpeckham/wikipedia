@@ -14,7 +14,7 @@ public class FirstLinkGetter {
         using (StreamWriter streamWriter = new StreamWriter(path)) {
 
 
-            using (StreamReader streamReader = new StreamReader(home + "/data/10g.xml")) {
+            using (StreamReader streamReader = new StreamReader(home + "/data/enwiki-20180401-pages-articles.xml")) {
 
                 StateOptions state = StateOptions.NEXTPAGE;
                 Regex spaceRegex = new Regex(" +", RegexOptions.Compiled);
