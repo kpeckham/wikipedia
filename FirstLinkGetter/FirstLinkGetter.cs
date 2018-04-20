@@ -146,7 +146,7 @@ public class FirstLinkGetter {
                             if (link == null) {
                                 link = "(no link found)";
                             }
-                            if (squareLevel > 0 || curlyLevel > 0) {
+                            if (squareLevel != 1 || curlyLevel != 0) {
                                 link = "(bad wikitext)";
                             }
                             //Canonicalization - https://en.wikipedia.org/wiki/Help:Link#Conversion_to_canonical_form
