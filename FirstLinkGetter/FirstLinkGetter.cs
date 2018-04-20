@@ -21,7 +21,7 @@ public class FirstLinkGetter {
 
                 string line = "";
                 string id = "";
-                string link = "";
+                string link = null;
 
                 bool isRedirect = false;
                 bool skipLinkRemainder = false;
@@ -39,7 +39,7 @@ public class FirstLinkGetter {
                             
                             if (line == "  <page>") {
                                 id = "";
-                                link = "";
+                                link = null;
 
                                 isRedirect = false;
                                 skipLinkRemainder = false;
@@ -120,29 +120,35 @@ public class FirstLinkGetter {
                                         }
 
                                         else {
+                                            if (link == null ) {
+                                                link = "";
+                                            }
                                             link += item;
                                         }
                                     }
 
                                     if (linkEndFlag) {
                                         skipLinkRemainder = false;
-                                        if (link.StartsWith("File:")) {
-                                            link = "";
+                                        if (link.StartsWith("File:") || link.StartsWith("Image:")) {
+                                            link = null;
                                         }
                                         else {
                                             state = StateOptions.ENDPAGE;
                                             break;
                                         }
-                                        // check for file links, parse link, look for link destination vs. link text
-                                        // next steps: check whether it's a file link - ignore and skip over; 
-                                        // if it's a non-inter-wiki link, the chain ends, we say there's no link
-                                        // check for colons in the link - if there's any, ignore the link, move to nextpage
+
                                     }
                                 }
                             }
                             break;
 
                         case StateOptions.ENDPAGE:
+                            if (link == null) {
+                                link = "(no link found)";
+                            }
+                            if (squareLevel > 0 || curlyLevel > 0) {
+                                link = "(bad wikitext)";
+                            }
                             //Canonicalization - https://en.wikipedia.org/wiki/Help:Link#Conversion_to_canonical_form
 
                             link = link.Replace('_', ' ');
