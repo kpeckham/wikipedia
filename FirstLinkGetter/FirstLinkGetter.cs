@@ -14,7 +14,7 @@ public class FirstLinkGetter {
         using (StreamWriter streamWriter = new StreamWriter(path)) {
 
 
-            using (StreamReader streamReader = new StreamReader(home + "/data/enwiki-20180401-pages-articles.xml")) {
+            using (StreamReader streamReader = new StreamReader(home + "/data/10g.xml")) {
 
                 StateOptions state = StateOptions.NEXTPAGE;
                 Regex spaceRegex = new Regex(" +", RegexOptions.Compiled);
@@ -28,6 +28,7 @@ public class FirstLinkGetter {
 
                 int curlyLevel = 0;
                 int squareLevel = 0;
+                int progressCheck = 0;
 
                 // checking for ENDPAGE in while because it's easier than figuring out how to backtrack a line
                 // once we figured out that we'd hit the end of a page.
@@ -61,7 +62,10 @@ public class FirstLinkGetter {
                             //id line format: "    <id>10</id>"
                             else if (line.StartsWith("    <id>", StringComparison.CurrentCulture)) {
                                 id = line.Substring(8, line.Length - 8 - 5);
-
+                                if (Convert.ToInt32(id) > progressCheck) {
+                                    Console.WriteLine("Progress: {0}", id);
+                                    progressCheck += 1000000;
+                                }
 
                             }
                             //redirect line format: "    <redirect title="Computer accessibility" />"
