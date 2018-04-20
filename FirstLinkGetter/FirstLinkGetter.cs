@@ -111,7 +111,7 @@ public class FirstLinkGetter {
                                             link = "";
                                         }
                                         else {
-                                            streamWriter.WriteLine("{0}\t{1}", id, link);
+                                            state = StateOptions.ENDPAGE;
                                         }
                                         // check for file links, parse link, look for link destination vs. link text
                                         // next steps: check whether it's a file link - ignore and skip over; 
@@ -124,7 +124,7 @@ public class FirstLinkGetter {
 
                         case StateOptions.ENDPAGE:
                             
-                            streamWriter.WriteLine(id + "\t" + (isRedirect ? "t" : "f") + "\t" + link);
+                            Console.WriteLine(id + "\t" + (isRedirect ? "t" : "f") + "\t" + link);
                             state = StateOptions.NEXTPAGE;
 
                             break;
