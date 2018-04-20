@@ -129,7 +129,7 @@ public class FirstLinkGetter {
 
                                     if (linkEndFlag) {
                                         skipLinkRemainder = false;
-                                        if (link.StartsWith("File:") || link.StartsWith("Image:")) {
+                                        if (link != null && (link.StartsWith("File:") || link.StartsWith("Image:"))) {
                                             link = null;
                                         }
                                         else {
