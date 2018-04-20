@@ -8,7 +8,7 @@ public class FirstLinkGetter {
 
     enum StateOptions { NEXTPAGE, METADATA, TEXT, ENDPAGE }; 
 
-    public static void Main(string[] args) {
+    public static void Main() {
         string home = Environment.GetFolderPath(Environment.SpecialFolder.Personal);
         string path = home + "/firstLinks1.txt";
         using (StreamWriter streamWriter = new StreamWriter(path)) {
