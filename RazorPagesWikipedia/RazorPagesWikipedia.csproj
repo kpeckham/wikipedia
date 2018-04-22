@@ -14,6 +14,11 @@
     <DotNetCliToolReference Include="Microsoft.EntityFrameworkCore.Tools.DotNet" Version="2.0.0" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Models\" />
+    <Compile Remove="Models\Page.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Update="Pages\Research.cshtml.cs">
+      <DependentUpon>Research.cshtml</DependentUpon>
+    </Compile>
   </ItemGroup>
 </Project>
