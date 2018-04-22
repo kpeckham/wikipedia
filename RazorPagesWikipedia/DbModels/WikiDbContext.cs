@@ -6,64 +6,45 @@ namespace RazorPagesWikipedia.DbModels
 {
     public partial class WikiDbContext : DbContext
     {
-        public virtual DbSet<Categorylinks> Categorylinks { get; set; }
+        public virtual DbSet<KpFirstlinks> KpFirstlinks { get; set; }
         public virtual DbSet<Page> Page { get; set; }
 
-        // Unable to generate entity type for table 'kp_firstlinks'. Please see the warning messages.
         // Unable to generate entity type for table 'pagelinks'. Please see the warning messages.
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             if (!optionsBuilder.IsConfigured)
             {
-
+#warning To protect potentially sensitive information in your connection string, you should move it out of source code. See http://go.microsoft.com/fwlink/?LinkId=723263 for guidance on storing connection strings.
                 optionsBuilder.UseMySql("server=localhost;port=3306;database=enwiki_20180401;uid=razor_ro;password=nNXGsnqo731UaVoB");
             }
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<Categorylinks>(entity =>
+            modelBuilder.Entity<KpFirstlinks>(entity =>
             {
-                entity.HasKey(e => new { e.ClFrom, e.ClTo });
+                entity.HasKey(e => e.PageId);
 
-                entity.ToTable("categorylinks");
+                entity.ToTable("kp_firstlinks");
 
-                entity.HasIndex(e => new { e.ClTo, e.ClTimestamp })
-                    .HasName("cl_timestamp");
+                entity.HasIndex(e => e.DestinationTitle)
+                    .HasName("destination_title");
 
-                entity.Property(e => e.ClFrom)
-                    .HasColumnName("cl_from")
+                entity.HasIndex(e => e.PageIsRedirect)
+                    .HasName("redirect");
+
+                entity.Property(e => e.PageId).HasColumnName("page_id");
+
+                entity.Property(e => e.DestinationTitle)
+                    .IsRequired()
+                    .HasColumnName("destination_title")
+                    .HasMaxLength(255)
+                    .HasDefaultValueSql("''");
+
+                entity.Property(e => e.PageIsRedirect)
+                    .HasColumnName("page_is_redirect")
                     .HasDefaultValueSql("'0'");
-
-                entity.Property(e => e.ClTo)
-                    .HasColumnName("cl_to")
-                    .HasMaxLength(255)
-                    .HasDefaultValueSql("''");
-
-                entity.Property(e => e.ClCollation)
-                    .IsRequired()
-                    .HasColumnName("cl_collation")
-                    .HasMaxLength(32)
-                    .HasDefaultValueSql("''");
-
-                entity.Property(e => e.ClSortkey)
-                    .IsRequired()
-                    .HasColumnName("cl_sortkey")
-                    .HasMaxLength(230)
-                    .HasDefaultValueSql("''");
-
-                entity.Property(e => e.ClSortkeyPrefix)
-                    .IsRequired()
-                    .HasColumnName("cl_sortkey_prefix")
-                    .HasMaxLength(255)
-                    .HasDefaultValueSql("''");
-
-                entity.Property(e => e.ClTimestamp)
-                    .HasColumnName("cl_timestamp")
-                    .HasColumnType("timestamp")
-                    .HasDefaultValueSql("'CURRENT_TIMESTAMP'")
-                    .ValueGeneratedOnAddOrUpdate();
             });
 
             modelBuilder.Entity<Page>(entity =>
