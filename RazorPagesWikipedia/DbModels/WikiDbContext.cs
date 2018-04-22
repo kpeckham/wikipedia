@@ -6,6 +6,7 @@ namespace RazorPagesWikipedia.DbModels
 {
     public partial class WikiDbContext : DbContext
     {
+        public virtual DbSet<Categorylinks> Categorylinks { get; set; }
         public virtual DbSet<KpFirstlinks> KpFirstlinks { get; set; }
         public virtual DbSet<Page> Page { get; set; }
 
@@ -22,6 +23,61 @@ namespace RazorPagesWikipedia.DbModels
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            modelBuilder.Entity<Categorylinks>(entity =>
+            {
+                entity.HasKey(e => new { e.ClFrom, e.ClTo });
+
+                entity.ToTable("categorylinks");
+
+                entity.HasIndex(e => new { e.ClTo, e.ClTimestamp })
+                    .HasName("cl_timestamp");
+
+                entity.HasIndex(e => new { e.ClCollation, e.ClTo, e.ClType, e.ClFrom })
+                    .HasName("cl_collation_ext");
+
+                entity.HasIndex(e => new { e.ClTo, e.ClType, e.ClSortkey, e.ClFrom })
+                    .HasName("cl_sortkey");
+
+                entity.Property(e => e.ClFrom)
+                    .HasColumnName("cl_from")
+                    .HasDefaultValueSql("'0'");
+
+                entity.Property(e => e.ClTo)
+                    .HasColumnName("cl_to")
+                    .HasMaxLength(255)
+                    .HasDefaultValueSql("''");
+
+                entity.Property(e => e.ClCollation)
+                    .IsRequired()
+                    .HasColumnName("cl_collation")
+                    .HasMaxLength(32)
+                    .HasDefaultValueSql("''");
+
+                entity.Property(e => e.ClSortkey)
+                    .IsRequired()
+                    .HasColumnName("cl_sortkey")
+                    .HasMaxLength(230)
+                    .HasDefaultValueSql("''");
+
+                entity.Property(e => e.ClSortkeyPrefix)
+                    .IsRequired()
+                    .HasColumnName("cl_sortkey_prefix")
+                    .HasMaxLength(255)
+                    .HasDefaultValueSql("''");
+
+                entity.Property(e => e.ClTimestamp)
+                    .HasColumnName("cl_timestamp")
+                    .HasColumnType("timestamp")
+                    .HasDefaultValueSql("'CURRENT_TIMESTAMP'")
+                    .ValueGeneratedOnAddOrUpdate();
+
+                entity.Property(e => e.ClType)
+                    .IsRequired()
+                    .HasColumnName("cl_type")
+                    .HasMaxLength(8)
+                    .HasDefaultValueSql("'page'");
+            });
+
             modelBuilder.Entity<KpFirstlinks>(entity =>
             {
                 entity.HasKey(e => e.PageId);

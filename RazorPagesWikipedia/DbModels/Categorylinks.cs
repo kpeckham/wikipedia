@@ -11,5 +11,6 @@ namespace RazorPagesWikipedia.DbModels
         public DateTimeOffset ClTimestamp { get; set; }
         public byte[] ClSortkeyPrefix { get; set; }
         public byte[] ClCollation { get; set; }
+        public byte[] ClType { get; set; }
     }
 }
