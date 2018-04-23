@@ -10,10 +10,10 @@
 
 @{
 
-    using (var db = new WikiDbContext()) 
-    {
+    var db = Database.Open("enwiki_20180401");
+
         var selectedData = db.Query("select count(*), cl_to from Categorylinks group by ClTo having count(*) > 100000");
-    }
+    
     var grid = new WebGrid(source: selectedData);
 }
 
