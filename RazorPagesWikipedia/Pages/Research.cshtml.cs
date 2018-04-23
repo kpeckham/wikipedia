@@ -138,7 +138,7 @@ namespace RazorPagesWikipedia.Pages
                     }
 
                     ToPhilosophy[FromId] = parentInfo;
-                    Console.WriteLine("Exiting at 142");
+                    Console.WriteLine("Exiting at 142 FromId {0} ToId {1}", FromId,ToId);
                     return parentInfo;
                 }
 
