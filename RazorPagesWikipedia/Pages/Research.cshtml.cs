@@ -6,27 +6,29 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using RazorPagesWikipedia.DbModels;
 using System.Text;
+using System.Xml.Linq;
 
 namespace RazorPagesWikipedia.Pages
 {
     public class ResearchModel : PageModel
     {
         Dictionary<int, FirstLinkInfo> ToPhilosophy = new Dictionary<int, FirstLinkInfo>();
+        List<int> depths = new List<int>();
 
         public void OnGet()
         {
         }
 
-        public int CountPages()
-        {
-            using (var db = new WikiDbContext())
-            {
-                return db.Page.Count();
+        //public Dictionary<int, FirstLinkInfo>()
+        //{
+        //    using (var db = new WikiDbContext())
+        //    {
+        //        return db.Page.Count();
 
-                // can give count a lambda or could do .Select().Count()
-            }
+        //        // can give count a lambda or could do .Select().Count()
+        //    }
 
-        }
+        //}
 
         public void loopPages()
         {
@@ -39,6 +41,11 @@ namespace RazorPagesWikipedia.Pages
                 {
                     FindPhilosophy((int)link.ClFrom);
                 }
+
+                XElement root = new XElement("Root",  
+                    from keyValue in ToPhilosophy  
+                    select new XElement(keyValue.Key.ToString(), keyValue.Value)  );  
+                Console.WriteLine(root); 
             }
         }
 
@@ -71,7 +78,7 @@ namespace RazorPagesWikipedia.Pages
                 }
 
                 string ToTitle = Encoding.UTF8.GetString(ToTitleBinary);
-                var ToId = db.Page.Where(pg => pg.PageTitle.SequenceEqual(ToTitleBinary)).Select(pg => pg.PageId).FirstOrDefault();
+                var ToId = db.Page.Where(pg => pg.PageNamespace == 0 && pg.PageTitle.SequenceEqual(ToTitleBinary)).Select(pg => pg.PageId).FirstOrDefault();
 
 
                 if (ToId == 0)
@@ -86,6 +93,7 @@ namespace RazorPagesWikipedia.Pages
 
                 if (childInfo != null) {
                     FirstLinkInfo parentInfo = new FirstLinkInfo((int) ToId, childInfo.GoesToPhilosophy, childInfo.InALoop, childInfo.Depth + 1);
+                    depths.Add(childInfo.Depth + 1);
                     ToPhilosophy.Add(FromId, parentInfo);
                     return parentInfo;
                 }
@@ -94,10 +102,12 @@ namespace RazorPagesWikipedia.Pages
                 {
                     FirstLinkInfo info = new FirstLinkInfo((int)ToId, true, false, 1);
                     ToPhilosophy.Add(FromId, info);
+                    depths.Add(1);
                     return info;
                 }
 
                 childInfo = FindPhilosophy((int)ToId);
+                depths.Add(childInfo.Depth + 1);
                 FirstLinkInfo legalGuardianInfo = new FirstLinkInfo((int)ToId, childInfo.GoesToPhilosophy, childInfo.InALoop, childInfo.Depth + 1);
                 return legalGuardianInfo;
                 

@@ -15,10 +15,17 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Remove="Models\Page.cs" />
+    <Compile Remove="Pages\Contact.cshtml.cs" />
   </ItemGroup>
   <ItemGroup>
     <Compile Update="Pages\Research.cshtml.cs">
       <DependentUpon>Research.cshtml</DependentUpon>
     </Compile>
+    <Compile Update="Pages\Bacon.cshtml.cs">
+      <DependentUpon>Bacon.cshtml</DependentUpon>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Remove="Pages\Contact.cshtml" />
   </ItemGroup>
 </Project>
