@@ -33,20 +33,11 @@ namespace RazorPagesWikipedia.Pages
             using (var db = new WikiDbContext())
             {
                 byte[] CompareText = Encoding.UTF8.GetBytes("Featured_articles");
-                var pages = db.Categorylinks.Where(cl => cl.ClTo.SequenceEqual(CompareText));
+                var links = db.Categorylinks.Where(cl => cl.ClTo.SequenceEqual(CompareText));
 
-                foreach (var page in pages)
+                foreach (var link in links)
                 {
-                    if (!ToPhilosophy.ContainsKey((int)page.ClFrom))
-                    {
-                        ToPhilosophy.Add((int)page.ClFrom, null);
-                        FindPhilosophy((int)page.ClFrom);
-                    }
-                    else
-                    {
-                        FirstLinkInfo info = ToPhilosophy.GetValueOrDefault((int)page.ClFrom);
-
-                    }
+                    FindPhilosophy((int)link.ClFrom);
                 }
             }
         }
@@ -107,8 +98,8 @@ namespace RazorPagesWikipedia.Pages
                 }
 
                 childInfo = FindPhilosophy((int)ToId);
-                FirstLinkInfo parentInfo = new FirstLinkInfo((int)ToId, childInfo.GoesToPhilosophy, childInfo.InALoop, childInfo.Depth + 1);
-                return parentInfo;
+                FirstLinkInfo legalGuardianInfo = new FirstLinkInfo((int)ToId, childInfo.GoesToPhilosophy, childInfo.InALoop, childInfo.Depth + 1);
+                return legalGuardianInfo;
                 
 
 

@@ -28,6 +28,7 @@ public class FirstLinkGetter {
 
                 int curlyLevel = 0;
                 int squareLevel = 0;
+                int parenLevel = 0;
                 int progressCheck = 0;
 
                 // checking for ENDPAGE in while because it's easier than figuring out how to backtrack a line
@@ -46,6 +47,7 @@ public class FirstLinkGetter {
 
                                 curlyLevel = 0;
                                 squareLevel = 0;
+                                parenLevel = 0;
 
                                 state = StateOptions.METADATA;
                             }
@@ -101,7 +103,7 @@ public class FirstLinkGetter {
                                             squareLevel += 1;
                                             break;
                                         case ']':
-                                            linkEndFlag |= (squareLevel == 2 && curlyLevel == 0);
+                                            linkEndFlag |= (squareLevel == 2 && curlyLevel == 0 && parenLevel == 0);
                                             squareLevel -= 1;
                                             break;
                                         case '{':
@@ -110,11 +112,17 @@ public class FirstLinkGetter {
                                         case '}':
                                             curlyLevel -= 1;
                                             break;
+                                        case '(':
+                                            parenLevel += 1;
+                                            break;
+                                        case ')':
+                                            parenLevel -= 1;
+                                            break;
                                     }
 
 
 
-                                    if (curlyLevel == 0 && squareLevel == 2 && item != '[' && !skipLinkRemainder) {
+                                    if (parenLevel == 0 && curlyLevel == 0 && squareLevel == 2 && item != '[' && !skipLinkRemainder) {
                                         if (item == '|' || item == '#') {
                                             skipLinkRemainder = true;
                                         }
@@ -151,8 +159,9 @@ public class FirstLinkGetter {
                             }
                             //Canonicalization - https://en.wikipedia.org/wiki/Help:Link#Conversion_to_canonical_form
 
-                            link = link.Replace('_', ' ');
-                            link = link.Trim();
+                            link = link.Replace(' ', '_');
+                            link = link.Replace("\\", "\\\\");
+                            link = link.Trim(new char[] {'_'});
 
                             if (link.Length > 0) {
                                 link = char.ToUpper(link[0]) + link.Substring(1);
@@ -161,7 +170,7 @@ public class FirstLinkGetter {
                             link = spaceRegex.Replace(link, " ");
                             link = WebUtility.HtmlDecode(link);
                                
-                            streamWriter.WriteLine(id + "\t" + (isRedirect ? "t" : "f") + "\t" + link);
+                            streamWriter.WriteLine(id + "\t" + (isRedirect ? "1" : "0") + "\t" + link);
                             state = StateOptions.NEXTPAGE;
                             //check for broken wikitext and figure out array out of bounds exception
 
