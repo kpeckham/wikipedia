@@ -81,6 +81,7 @@ namespace RazorPagesWikipedia.Pages
 
         public FirstLinkInfo FindPhilosophy(int FromId)
         {
+            Console.WriteLine("entered the void");
             var entry = ToPhilosophy.GetValueOrDefault(FromId);
             if (entry != null)
             {
