@@ -22,7 +22,7 @@ namespace RazorPagesWikipedia.Pages
         MyAppData appData;
 
         Dictionary<int, FirstLinkInfo> ToPhilosophy = new Dictionary<int, FirstLinkInfo>();
-        List<int> depths = new List<int>();
+        public List<int> depths = new List<int>();
 
         public bool ToggleRed()
         {
@@ -49,12 +49,12 @@ namespace RazorPagesWikipedia.Pages
         {
             using (var db = new WikiDbContext())
             {
-                //byte[] CompareText = Encoding.UTF8.GetBytes("Featured_articles");
-                //var links = db.Categorylinks.Where(cl => cl.ClTo == CompareText);
+                byte[] CompareText = Encoding.UTF8.GetBytes("Featured_articles");
+                var links = db.Categorylinks.Where(cl => cl.ClTo == CompareText);
 
                 int count = 0;
-                foreach (var id in db.KpFirstlinks.Select(link => link.PageId))
-                //foreach (var id in links.Select(link => link.ClFrom))
+                //foreach (var id in db.KpFirstlinks.Select(link => link.PageId))
+                foreach (var id in links.Select(link => link.ClFrom))
                 {
                     if (++count % 1000 == 0)
                         Console.WriteLine(count);
@@ -65,7 +65,7 @@ namespace RazorPagesWikipedia.Pages
                     from keyValue in ToPhilosophy  
                     select new XElement("A" + keyValue.Key.ToString(), XmlConvert(keyValue.Value)));  
 
-                root.Save("/mnt/volume-nyc3-03/ToPhilosophyAllPages.xml");
+                root.Save("/mnt/volume-nyc3-03/ToPhilosophyFeaturedPages.xml");
             }
         }
 
