@@ -13,9 +13,9 @@ namespace RazorPagesWikipedia.Pages
         {
         }
 
-        public int searchLinks()
-        {
+        //public int searchLinks()
+        //{
             
-        }
+        //}
     }
 }

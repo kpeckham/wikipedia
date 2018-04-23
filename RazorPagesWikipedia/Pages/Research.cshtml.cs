@@ -48,12 +48,12 @@ namespace RazorPagesWikipedia.Pages
             using (var db = new WikiDbContext())
             {
                 byte[] CompareText = Encoding.UTF8.GetBytes("Featured_articles");
-                var links = db.Categorylinks.Where(cl => cl.ClTo.SequenceEqual(CompareText));
+                //var links = db.Categorylinks.Where(cl => cl.ClTo.SequenceEqual(CompareText));
 
-                foreach (var link in links)
-                {
-                    FindPhilosophy((int)link.ClFrom);
-                }
+                //foreach (var link in links)
+                //{
+                    FindPhilosophy(26700);
+                //}
 
                 XElement root = new XElement("Root",  
                     from keyValue in ToPhilosophy  
