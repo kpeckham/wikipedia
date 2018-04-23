@@ -1,5 +1,7 @@
 ﻿@page
 @model AboutModel
+@using RazorPagesWikipedia.DbModels;
+
 @{
     ViewData["Title"] = "About";
 }
@@ -7,6 +9,7 @@
 <h3>@Model.Message</h3>
 
 @{
+
     using (var db = new WikiDbContext()) 
     {
         var selectedData = db.Query("select count(*), cl_to from Categorylinks group by ClTo having count(*) > 100000");
