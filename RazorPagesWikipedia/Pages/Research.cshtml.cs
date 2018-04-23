@@ -110,6 +110,7 @@ namespace RazorPagesWikipedia.Pages
                     FirstLinkInfo nullEntry = new FirstLinkInfo(0, false, false, -1);
                     ToPhilosophy[FromId] = nullEntry;
 
+                    Console.WriteLine("Exiting at 114");
                     return nullEntry;
                 }
 
@@ -122,6 +123,7 @@ namespace RazorPagesWikipedia.Pages
                     FirstLinkInfo nullEntry = new FirstLinkInfo(0, false, false, -1);
                     ToPhilosophy[FromId] = nullEntry;
 
+                    Console.WriteLine("Exiting at 127");
                     return nullEntry;
                 }
 
@@ -136,6 +138,7 @@ namespace RazorPagesWikipedia.Pages
                     }
 
                     ToPhilosophy[FromId] = parentInfo;
+                    Console.WriteLine("Exiting at 142");
                     return parentInfo;
                 }
 
@@ -144,6 +147,7 @@ namespace RazorPagesWikipedia.Pages
                     FirstLinkInfo info = new FirstLinkInfo((int)ToId, true, false, 1);
                     ToPhilosophy[FromId] = info;
                     depths.Add(1);
+                    Console.WriteLine("Exiting at 152");
                     return info;
                 }
 
@@ -155,6 +159,7 @@ namespace RazorPagesWikipedia.Pages
                 }
                 FirstLinkInfo legalGuardianInfo = new FirstLinkInfo((int)ToId, childInfo.GoesToPhilosophy, childInfo.InALoop, childInfo.Depth + 1);
                 ToPhilosophy[FromId] = legalGuardianInfo;
+                Console.WriteLine("Exiting at 164");
                 return legalGuardianInfo;
                 
 
