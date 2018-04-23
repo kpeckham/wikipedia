@@ -126,7 +126,12 @@ ToPhilosophy.Add(FromId, unProcessedEntry);
 
                 if (childInfo != null) {
                     FirstLinkInfo parentInfo = new FirstLinkInfo((int) ToId, childInfo.GoesToPhilosophy, childInfo.InALoop, childInfo.Depth + 1);
-                    depths.Add(childInfo.Depth + 1);
+                    if (childInfo.GoesToPhilosophy) 
+                    {
+                        depths.Add(childInfo.Depth + 1);
+
+                    }
+
                     ToPhilosophy[FromId] = parentInfo;
                     return parentInfo;
                 }
@@ -140,7 +145,11 @@ ToPhilosophy.Add(FromId, unProcessedEntry);
                 }
 
                 childInfo = FindPhilosophy((int)ToId);
-                depths.Add(childInfo.Depth + 1);
+                if (childInfo.GoesToPhilosophy) 
+                {
+                    depths.Add(childInfo.Depth + 1);
+
+                }
                 FirstLinkInfo legalGuardianInfo = new FirstLinkInfo((int)ToId, childInfo.GoesToPhilosophy, childInfo.InALoop, childInfo.Depth + 1);
                 ToPhilosophy[FromId] = legalGuardianInfo;
                 return legalGuardianInfo;
