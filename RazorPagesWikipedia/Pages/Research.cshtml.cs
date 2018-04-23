@@ -130,9 +130,12 @@ namespace RazorPagesWikipedia.Pages
                 FirstLinkInfo childInfo = ToPhilosophy.GetValueOrDefault((int)ToId);
 
                 if (childInfo != null) {
-                    FirstLinkInfo parentInfo = new FirstLinkInfo((int) ToId, childInfo.GoesToPhilosophy, childInfo.InALoop, childInfo.Depth + 1);
+                    if (childInfo.unProcessed) {
+                        childInfo.InALoop = true;
+                    }
                     if (childInfo.GoesToPhilosophy) 
                     {
+
                         depths.Add(childInfo.Depth + 1);
 
                     }
