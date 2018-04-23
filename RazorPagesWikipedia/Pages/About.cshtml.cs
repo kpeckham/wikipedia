@@ -22,7 +22,7 @@ public Dictionary<int, FirstLinkInfo> ToPhilosophy = new Dictionary<int, FirstLi
 
 public void LoadToPhilosophy()
 {
-    XElement root = XElement.Load("/mnt/volume-nyc3-03/ToPhilosophy.xml");
+    XElement root = XElement.Load("/mnt/volume-nyc3-03/ToPhilosophyFeaturedPages.xml");
 
     foreach (var el in root.Elements())
     {
