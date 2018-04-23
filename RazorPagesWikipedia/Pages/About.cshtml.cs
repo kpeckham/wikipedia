@@ -15,6 +15,8 @@ namespace RazorPagesWikipedia.Pages
     {
         public string Message { get; set; }
 
+
+
         public void OnGet()
         {
             Message = "Your application description page.";
