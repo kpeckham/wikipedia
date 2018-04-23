@@ -56,7 +56,7 @@ namespace RazorPagesWikipedia.Pages
                 //foreach (var id in db.KpFirstlinks.Select(link => link.PageId))
                 //foreach (var id in links.Select(link => link.ClFrom))
                 //{
-                    if (++count % 1000 == 0)
+                    //if (++count % 1000 == 0)
                         Console.WriteLine(count);
                     FindPhilosophy(26700);
                 //}
