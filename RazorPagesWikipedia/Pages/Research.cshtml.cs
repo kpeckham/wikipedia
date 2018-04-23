@@ -159,7 +159,7 @@ namespace RazorPagesWikipedia.Pages
                 }
                 FirstLinkInfo legalGuardianInfo = new FirstLinkInfo((int)ToId, childInfo.GoesToPhilosophy, childInfo.InALoop, childInfo.Depth + 1);
                 ToPhilosophy[FromId] = legalGuardianInfo;
-                Console.WriteLine("Exiting at 164 FromId {0} ToTitle {1}", FromId, ToTitle");
+                Console.WriteLine("Exiting at 164 FromId {0} ToTitle {1}", FromId, ToTitle);
                 return legalGuardianInfo;
                 
 
