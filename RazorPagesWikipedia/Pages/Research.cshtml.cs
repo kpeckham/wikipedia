@@ -49,18 +49,23 @@ namespace RazorPagesWikipedia.Pages
         {
             using (var db = new WikiDbContext())
             {
-                byte[] CompareText = Encoding.UTF8.GetBytes("Featured_articles");
-                //var links = db.Categorylinks.Where(cl => cl.ClTo.SequenceEqual(CompareText));
+                //byte[] CompareText = Encoding.UTF8.GetBytes("Featured_articles");
+                //var links = db.Categorylinks.Where(cl => cl.ClTo == CompareText);
 
-                //foreach (var link in links)
-                //{
-                    FindPhilosophy(26700);
-                //}
+                int count = 0;
+                foreach (var id in db.KpFirstlinks.Select(link => link.PageId))
+                //foreach (var id in links.Select(link => link.ClFrom))
+                {
+                    if (++count % 1000 == 0)
+                        Console.WriteLine(count);
+                    FindPhilosophy((int)id);
+                }
 
                 XElement root = new XElement("Root",  
                     from keyValue in ToPhilosophy  
                     select new XElement("A" + keyValue.Key.ToString(), XmlConvert(keyValue.Value)));  
-                    Console.WriteLine(root); 
+
+                root.Save("/mnt/volume-nyc3-03/ToPhilosophyAllPages.xml");
             }
         }
 
@@ -100,7 +105,7 @@ ToPhilosophy.Add(FromId, unProcessedEntry);
                 if (ToTitleBinary == null)
                 {
                     FirstLinkInfo nullEntry = new FirstLinkInfo(0, false, false, -1);
-                    ToPhilosophy.Add(FromId, nullEntry);
+                    ToPhilosophy[FromId] = nullEntry;
 
                     return nullEntry;
                 }
@@ -112,7 +117,7 @@ ToPhilosophy.Add(FromId, unProcessedEntry);
                 if (ToId == 0)
                 {
                     FirstLinkInfo nullEntry = new FirstLinkInfo(0, false, false, -1);
-                    ToPhilosophy.Add(FromId, nullEntry);
+                    ToPhilosophy[FromId] = nullEntry;
 
                     return nullEntry;
                 }
