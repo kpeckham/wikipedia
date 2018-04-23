@@ -133,9 +133,9 @@ namespace RazorPagesWikipedia.Pages
                     if (childInfo.unProcessed) {
                         childInfo.InALoop = true;
                     }
+                    FirstLinkInfo parentInfo = new FirstLinkInfo((int) ToId, childInfo.GoesToPhilosophy, childInfo.InALoop, childInfo.Depth + 1);
                     if (childInfo.GoesToPhilosophy) 
                     {
-
                         depths.Add(childInfo.Depth + 1);
 
                     }
