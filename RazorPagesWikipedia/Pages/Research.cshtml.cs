@@ -54,12 +54,12 @@ namespace RazorPagesWikipedia.Pages
 
                 int count = 0;
                 //foreach (var id in db.KpFirstlinks.Select(link => link.PageId))
-                foreach (var id in links.Select(link => link.ClFrom))
-                {
+                //foreach (var id in links.Select(link => link.ClFrom))
+                //{
                     if (++count % 1000 == 0)
                         Console.WriteLine(count);
-                    FindPhilosophy((int)id);
-                }
+                    FindPhilosophy(26700);
+                //}
 
                 XElement root = new XElement("Root",  
                     from keyValue in ToPhilosophy  
@@ -84,7 +84,7 @@ namespace RazorPagesWikipedia.Pages
             var entry = ToPhilosophy.GetValueOrDefault(FromId);
             if (entry != null)
             {
-                Console.WriteLine("We've seen it before proc: {0} loop: {1}",entry.unProcessed, entry.InALoop);
+                Console.WriteLine("We've seen it before fromId - {0}", FromId);
                 if (entry.unProcessed || entry.InALoop)
                 {
                     entry.InALoop = true;
