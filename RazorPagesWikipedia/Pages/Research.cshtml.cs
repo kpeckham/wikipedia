@@ -53,13 +53,13 @@ namespace RazorPagesWikipedia.Pages
                 var links = db.Categorylinks.Where(cl => cl.ClTo == CompareText);
 
                 int count = 0;
-                //foreach (var id in db.KpFirstlinks.Select(link => link.PageId))
-                //foreach (var id in links.Select(link => link.ClFrom))
-                //{
-                    //if (++count % 1000 == 0)
+                foreach (var id in db.KpFirstlinks.Select(link => link.PageId))
+                foreach (var id in links.Select(link => link.ClFrom))
+                {
+                    if (++count % 1000 == 0)
                         Console.WriteLine(count);
-                    FindPhilosophy(26700);
-                //}
+                    FindPhilosophy((int)id);
+                }
 
                 XElement root = new XElement("Root",  
                     from keyValue in ToPhilosophy  
