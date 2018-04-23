@@ -66,7 +66,7 @@ namespace RazorPagesWikipedia.Pages
 
         }
 
-        public int getNumToPhilosophy()
+        public Tuple<int,int> getNumToPhilosophy()
         {
             //LoadToPhilosophy must have already run;
             using (var db = new WikiDbContext())
@@ -75,6 +75,7 @@ namespace RazorPagesWikipedia.Pages
                 var links = db.Categorylinks.Where(cl => cl.ClTo == CompareText);
 
                 int philNum = 0;
+                int depthCount = 0;
                 //foreach (var id in db.KpFirstlinks.Select(link => 
                 foreach (var id in links.Select(link => link.ClFrom))
                 {
@@ -83,9 +84,10 @@ namespace RazorPagesWikipedia.Pages
                     if (toPhilosophy)
                     {
                         philNum++;
+                        depthCount += ToPhilosophy[(int)id].Depth;
                     }
                 }
-                return philNum;
+                return new Tuple<int,int>(philNum,depthCount/philNum);
             }
 
         }
