@@ -89,5 +89,29 @@ namespace RazorPagesWikipedia.Pages
             }
 
         }
+
+        public int getNumUnProcessed()
+        {
+            //LoadToPhilosophy must have already run;
+            using (var db = new WikiDbContext())
+            {
+                byte[] CompareText = Encoding.UTF8.GetBytes("Featured_articles");
+                var links = db.Categorylinks.Where(cl => cl.ClTo == CompareText);
+
+                int procNum = 0;
+                //foreach (var id in db.KpFirstlinks.Select(link => 
+                foreach (var id in links.Select(link => link.ClFrom))
+                {
+
+                    bool unProcessed = ToPhilosophy[(int)id].unProcessed;
+                    if (unProcessed)
+                    {
+                        procNum++;
+                    }
+                }
+                return procNum;
+            }
+
+        }
     }
 }

@@ -94,8 +94,8 @@ namespace RazorPagesWikipedia.Pages
 
             }
 
-FirstLinkInfo unProcessedEntry = new FirstLinkInfo();
-ToPhilosophy.Add(FromId, unProcessedEntry);
+            FirstLinkInfo unProcessedEntry = new FirstLinkInfo();
+            ToPhilosophy.Add(FromId, unProcessedEntry);
 
 
             using (var db = new WikiDbContext())
