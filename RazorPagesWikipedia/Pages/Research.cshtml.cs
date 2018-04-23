@@ -76,11 +76,9 @@ namespace RazorPagesWikipedia.Pages
 
         public FirstLinkInfo FindPhilosophy(int FromId)
         {
-            Console.WriteLine(FromId);
             var entry = ToPhilosophy.GetValueOrDefault(FromId);
             if (entry != null)
             {
-                Console.WriteLine("entry != null");
                 if (entry.unProcessed || entry.InALoop)
                 {
                     entry.InALoop = true;
@@ -103,21 +101,18 @@ ToPhilosophy.Add(FromId, unProcessedEntry);
                 {
                     FirstLinkInfo nullEntry = new FirstLinkInfo(0, false, false, -1);
                     ToPhilosophy.Add(FromId, nullEntry);
-                    Console.WriteLine("added nullEntry 1");
 
                     return nullEntry;
                 }
 
                 string ToTitle = Encoding.UTF8.GetString(ToTitleBinary);
                 var ToId = db.Page.Where(pg => pg.PageNamespace == 0 && pg.PageTitle == ToTitleBinary).Select(pg => pg.PageId).FirstOrDefault();
-                Console.WriteLine("{0}: {1}", ToId, ToTitle);
 
 
                 if (ToId == 0)
                 {
                     FirstLinkInfo nullEntry = new FirstLinkInfo(0, false, false, -1);
                     ToPhilosophy.Add(FromId, nullEntry);
-                    Console.WriteLine("added nullEntry 2");
 
                     return nullEntry;
                 }
@@ -128,7 +123,6 @@ ToPhilosophy.Add(FromId, unProcessedEntry);
                     FirstLinkInfo parentInfo = new FirstLinkInfo((int) ToId, childInfo.GoesToPhilosophy, childInfo.InALoop, childInfo.Depth + 1);
                     depths.Add(childInfo.Depth + 1);
                     ToPhilosophy[FromId] = parentInfo;
-                    Console.WriteLine("added parentInfo 1");
                     return parentInfo;
                 }
 
@@ -136,7 +130,6 @@ ToPhilosophy.Add(FromId, unProcessedEntry);
                 {
                     FirstLinkInfo info = new FirstLinkInfo((int)ToId, true, false, 1);
                     ToPhilosophy[FromId] = info;
-                    Console.WriteLine("added parentInfo 2");
                     depths.Add(1);
                     return info;
                 }
@@ -145,7 +138,6 @@ ToPhilosophy.Add(FromId, unProcessedEntry);
                 depths.Add(childInfo.Depth + 1);
                 FirstLinkInfo legalGuardianInfo = new FirstLinkInfo((int)ToId, childInfo.GoesToPhilosophy, childInfo.InALoop, childInfo.Depth + 1);
                 ToPhilosophy[FromId] = legalGuardianInfo;
-                Console.WriteLine("added parentInfo 3");
                 return legalGuardianInfo;
                 
 
