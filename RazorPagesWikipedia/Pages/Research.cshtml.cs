@@ -81,15 +81,15 @@ namespace RazorPagesWikipedia.Pages
 
         public FirstLinkInfo FindPhilosophy(int FromId)
         {
-            Console.WriteLine("entered the void");
+            //Console.WriteLine("entered the void");
             var entry = ToPhilosophy.GetValueOrDefault(FromId);
             if (entry != null)
             {
-                Console.WriteLine("We've seen it before fromId - {0}", FromId);
+                //Console.WriteLine("We've seen it before fromId - {0}", FromId);
                 if (entry.unProcessed || entry.InALoop)
                 {
                     entry.InALoop = true;
-                    Console.WriteLine("we've put it in a loop");
+                    //Console.WriteLine("we've put it in a loop");
                     entry.unProcessed = false;
                 }
 
@@ -110,7 +110,7 @@ namespace RazorPagesWikipedia.Pages
                     FirstLinkInfo nullEntry = new FirstLinkInfo(0, false, false, -1);
                     ToPhilosophy[FromId] = nullEntry;
 
-                    Console.WriteLine("Exiting at 114");
+                    //Console.WriteLine("Exiting at 114");
                     return nullEntry;
                 }
 
@@ -123,7 +123,7 @@ namespace RazorPagesWikipedia.Pages
                     FirstLinkInfo nullEntry = new FirstLinkInfo(0, false, false, -1);
                     ToPhilosophy[FromId] = nullEntry;
 
-                    Console.WriteLine("Exiting at 127");
+                    //Console.WriteLine("Exiting at 127");
                     return nullEntry;
                 }
 
@@ -141,7 +141,7 @@ namespace RazorPagesWikipedia.Pages
                     }
 
                     ToPhilosophy[FromId] = parentInfo;
-                    Console.WriteLine("Exiting at 142 FromId {0} ToTitle {1} inaloop {2}", FromId,ToTitle, parentInfo.InALoop);
+                    //Console.WriteLine("Exiting at 142 FromId {0} ToTitle {1} inaloop {2}", FromId,ToTitle, parentInfo.InALoop);
                     return parentInfo;
                 }
 
@@ -150,7 +150,7 @@ namespace RazorPagesWikipedia.Pages
                     FirstLinkInfo info = new FirstLinkInfo((int)ToId, true, false, 1);
                     ToPhilosophy[FromId] = info;
                     depths.Add(1);
-                    Console.WriteLine("Exiting at 152");
+                    //Console.WriteLine("Exiting at 152");
                     return info;
                 }
 
@@ -162,7 +162,7 @@ namespace RazorPagesWikipedia.Pages
                 }
                 FirstLinkInfo legalGuardianInfo = new FirstLinkInfo((int)ToId, childInfo.GoesToPhilosophy, childInfo.InALoop, childInfo.Depth + 1);
                 ToPhilosophy[FromId] = legalGuardianInfo;
-                Console.WriteLine("Exiting at 164 FromId {0} ToTitle {1} inaloop {2}", FromId, ToTitle, legalGuardianInfo.InALoop);
+                //Console.WriteLine("Exiting at 164 FromId {0} ToTitle {1} inaloop {2}", FromId, ToTitle, legalGuardianInfo.InALoop);
                 return legalGuardianInfo;
                 
 
