@@ -7,10 +7,10 @@
 <h3>@Model.Message</h3>
 
 @{
-    Model.LoadToPhilosophy();
+    using (var db = new WikiDbContext()) 
+    {
+        var selectedData = db.Query("select count(*), cl_to from Categorylinks group by ClTo having count(*) > 100000");
+    }
+    var grid = new WebGrid(source: selectedData);
 }
-<p>@Model.ToPhilosophy.Count</p>
-<p>Loops - @Model.getNumOfLoops()</p>
-<p>To Philosophy - @Model.getNumToPhilosophy().Item1</p>
-<p>Average depth - @Model.getNumToPhilosophy().Item2</p>
-<p>UnProcessed - @Model.getNumUnProcessed()</p>
+
