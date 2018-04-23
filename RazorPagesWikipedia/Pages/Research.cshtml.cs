@@ -53,7 +53,7 @@ namespace RazorPagesWikipedia.Pages
                 var links = db.Categorylinks.Where(cl => cl.ClTo == CompareText);
 
                 int count = 0;
-                var ids = db.KpFirstLinks.Select(link => link.PageId);
+                List<int> ids = db.KpFirstLinks.Select(link => link.PageId);
                 foreach (var id in ids)
                 //foreach (var id in links.Select(link => link.ClFrom))
                 {
