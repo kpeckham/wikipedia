@@ -53,7 +53,8 @@ namespace RazorPagesWikipedia.Pages
                 var links = db.Categorylinks.Where(cl => cl.ClTo == CompareText);
 
                 int count = 0;
-                foreach (var id in db.KpFirstlinks.Select(link => link.PageId))
+                var ids = db.KpFirstLinks.Select(link => link.PageId);
+                foreach (var id in ids)
                 //foreach (var id in links.Select(link => link.ClFrom))
                 {
                     if (++count % 1000 == 0)
@@ -65,7 +66,7 @@ namespace RazorPagesWikipedia.Pages
                     from keyValue in ToPhilosophy  
                     select new XElement("A" + keyValue.Key.ToString(), XmlConvert(keyValue.Value)));  
 
-                root.Save("/mnt/volume-nyc3-03/ToPhilosophyFeaturedPages.xml");
+                root.Save("/mnt/volume-nyc3-03/ToPhilosophyAllPages.xml");
             }
         }
 
