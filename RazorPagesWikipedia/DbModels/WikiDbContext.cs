@@ -9,8 +9,7 @@ namespace RazorPagesWikipedia.DbModels
         public virtual DbSet<Categorylinks> Categorylinks { get; set; }
         public virtual DbSet<KpFirstlinks> KpFirstlinks { get; set; }
         public virtual DbSet<Page> Page { get; set; }
-
-        // Unable to generate entity type for table 'pagelinks'. Please see the warning messages.
+        public virtual DbSet<Pagelinks> Pagelinks { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -172,6 +171,38 @@ namespace RazorPagesWikipedia.DbModels
                     .HasColumnName("page_touched")
                     .HasMaxLength(14)
                     .HasDefaultValueSql("''");
+            });
+
+            modelBuilder.Entity<Pagelinks>(entity =>
+            {
+                entity.HasKey(e => new { e.PlFrom, e.PlNamespace, e.PlTitle });
+
+                entity.ToTable("pagelinks");
+
+                entity.HasIndex(e => new { e.PlNamespace, e.PlTitle, e.PlFrom })
+                    .HasName("pl_namespace");
+
+                entity.HasIndex(e => new { e.PlFromNamespace, e.PlNamespace, e.PlTitle, e.PlFrom })
+                    .HasName("pl_backlinks_namespace");
+
+                entity.Property(e => e.PlFrom)
+                    .HasColumnName("pl_from")
+                    .HasDefaultValueSql("'0'");
+
+                entity.Property(e => e.PlNamespace)
+                    .HasColumnName("pl_namespace")
+                    .HasColumnType("int(11)")
+                    .HasDefaultValueSql("'0'");
+
+                entity.Property(e => e.PlTitle)
+                    .HasColumnName("pl_title")
+                    .HasMaxLength(255)
+                    .HasDefaultValueSql("''");
+
+                entity.Property(e => e.PlFromNamespace)
+                    .HasColumnName("pl_from_namespace")
+                    .HasColumnType("int(11)")
+                    .HasDefaultValueSql("'0'");
             });
         }
     }
