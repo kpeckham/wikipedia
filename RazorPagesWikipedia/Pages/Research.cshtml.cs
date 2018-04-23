@@ -84,7 +84,7 @@ namespace RazorPagesWikipedia.Pages
             var entry = ToPhilosophy.GetValueOrDefault(FromId);
             if (entry != null)
             {
-                Console.WriteLine("We've seen it before");
+                Console.WriteLine("We've seen it before proc: {0} loop: {1}",entry.unProcessed, entry.InALoop);
                 if (entry.unProcessed || entry.InALoop)
                 {
                     entry.InALoop = true;
