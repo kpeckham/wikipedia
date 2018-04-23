@@ -10,11 +10,11 @@ public class FirstLinkGetter {
 
     public static void Main() {
         string home = Environment.GetFolderPath(Environment.SpecialFolder.Personal);
-        string path = home + "/firstLinks1.txt";
+        string path = home + "/firstLinks2.txt";
         using (StreamWriter streamWriter = new StreamWriter(path)) {
 
 
-            using (StreamReader streamReader = new StreamReader(home + "/data/enwiki-20180401-pages-articles.xml")) {
+            using (StreamReader streamReader = new StreamReader("/mnt/volume-nyc3-04/enwiki-20180401-pages-articles.xml")) {
 
                 StateOptions state = StateOptions.NEXTPAGE;
                 Regex spaceRegex = new Regex(" +", RegexOptions.Compiled);
@@ -113,10 +113,14 @@ public class FirstLinkGetter {
                                             curlyLevel -= 1;
                                             break;
                                         case '(':
-                                            parenLevel += 1;
+                                            if (squareLevel != 2) {
+                                                parenLevel += 1;
+                                            }
                                             break;
                                         case ')':
-                                            parenLevel -= 1;
+                                            if (squareLevel != 2) {
+                                                parenLevel -= 1;
+                                            }
                                             break;
                                     }
 
