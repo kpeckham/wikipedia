@@ -11,7 +11,20 @@ namespace RazorPagesWikipedia.Pages
 {
     public class ResearchModel : PageModel
     {
+        public ResearchModel(MyAppData appData)
+        {
+            this.appData = appData;
+        }
+
+        MyAppData appData;
+
         Dictionary<int, FirstLinkInfo> ToPhilosophy = new Dictionary<int, FirstLinkInfo>();
+
+        public bool ToggleRed()
+        {
+            appData.IsRed = !appData.IsRed;
+            return appData.IsRed;
+        }
 
         public void OnGet()
         {
