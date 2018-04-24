@@ -14,12 +14,13 @@ namespace RazorPagesWikipedia.Pages
 {
     public class ResearchModel : PageModel
     {
+        public MyAppData appData;
+
         public ResearchModel(MyAppData appData)
         {
             this.appData = appData;
         }
 
-        MyAppData appData;
 
 
         public void OnGet()

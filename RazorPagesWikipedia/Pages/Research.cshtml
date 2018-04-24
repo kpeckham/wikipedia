@@ -3,9 +3,10 @@
 
 
 @{
+var Average = Model.appData.ToPhilosophy.Values.Where(x => x.GoesToPhilosophy).Average(x => x.Depth);
 
 }
 
-
+<h1>Average - @Average</h1>
 
 
