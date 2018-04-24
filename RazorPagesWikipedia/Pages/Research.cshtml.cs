@@ -21,11 +21,6 @@ namespace RazorPagesWikipedia.Pages
 
         MyAppData appData;
 
-        public bool ToggleRed()
-        {
-            appData.IsRed = !appData.IsRed;
-            return appData.IsRed;
-        }
 
         public void OnGet()
         {
