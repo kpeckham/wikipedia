@@ -7,7 +7,7 @@ using System.Linq;
 public class MyAppData
 {
 
-    public Dictionary<int, FirstLinkInfo> ToPhilosophy;
+    public Dictionary<int, FirstLinkInfo> ToPhilosophy = new Dictionary<int, FirstLinkInfo>();
 
     public MyAppData()
     {
